@@ -21,12 +21,15 @@ for sms in messages_file:
 	spam_product = 1.0
 	ham_product = 1.0
 	if lineNumber % 2 != 0:
-		for word in f.get_intresting_words(sms):
-			spam_product *= word.get_probability()
-			ham_product *= (1.0 - word.get_probability())
+		try:
+			for word in f.get_intresting_words(sms):
+				spam_product *= word.get_probability()
+				ham_product *= (1.0 - word.get_probability())
 
-		sms_spam_probability = spam_product / (spam_product + ham_product)
-
+			sms_spam_probability = spam_product / (spam_product + ham_product)
+		except:
+			predictions_file.write("error")
+			
 		if sms_spam_probability > 0.9:
 			predictions_file.write("spam")
 		else:
