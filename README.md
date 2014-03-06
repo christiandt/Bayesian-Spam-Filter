@@ -1,7 +1,6 @@
 Bayesian-Spam-Filter
 ====================
 
-## Running the program
 The Bayesian SMS filter can be run using Python in the following way:
 
     python main.py <training_file> <testing_file>
