@@ -7,6 +7,8 @@ class Filter():
 
 
 	def trim_word(self, word):
+		# Helper method to trim away some of the non-alphabetic characters
+		# I deliberately do not remove all non-alphabetic characters.
 		word = word.strip(' .:,-!()"?+<>*')
 		word = word.lower()
 		return word
@@ -29,6 +31,7 @@ class Filter():
 					input_word = input_word
 					if input_word != "":
 						input_word = self.trim_word(input_word)
+
 						# Check if word is in dicionary, else add
 						if input_word in self.words:
 							word = self.words[input_word]
@@ -44,23 +47,21 @@ class Filter():
 							word.increment_spam()
 							spam_words += 1
 
-						# Probably bad input...
+						# Probably bad training file input...
 						else:
-							print "Not valid"
+							print "Not valid training file format"
 						
 			lineNumber+=1
 
+		# Compute the probability for each word in the training set
 		for word in self.words:
 			self.words[word].compute_probability(ham_words, spam_words)
-			
-			#print word
-			#print self.words[word].ham_count
-			#print self.words[word].spam_count
-			#print self.words[word].get_probability()
 
 	def get_intresting_words(self, sms):
 		intresting_words = []
 
+		# Go through all words in the SMS and append to list. 
+		# If we have not seen the word in training, assign probability of 0.4
 		for input_word in sms.split(' '):
 			input_word = self.trim_word(input_word)
 			if input_word != "":
@@ -71,5 +72,6 @@ class Filter():
 					word.set_probability(0.40)
 				intresting_words.append(word)
 
+		# Sort the list of interesting words, return top 15 elements if list is longer than 15
 		intresting_words.sort(key=lambda word: word.interesting(), reverse=True)
 		return intresting_words[0:15]
