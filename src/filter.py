@@ -1,7 +1,4 @@
 from word import Word
-import sys
-
-#file = sys.argv[1]
 
 class Filter():
 
@@ -76,24 +73,3 @@ class Filter():
 
 		intresting_words.sort(key=lambda word: word.interesting(), reverse=True)
 		return intresting_words[0:15]
-
-
-train = sys.argv[1]
-messages = sys.argv[2]
-
-train_file = open(train, "rb")
-messages_file = open(messages, "rb")
-
-f = Filter()
-f.train(train_file)
-
-for sms in messages_file:
-	print "*********************"
-	print sms
-	for word in f.get_intresting_words(sms):
-		print word.get_word()
-	print "*********************"
-
-
-train_file.close()
-messages_file.close()
