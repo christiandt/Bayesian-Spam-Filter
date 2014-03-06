@@ -20,11 +20,10 @@ for sms in messages_file:
 			positive_product *= word.get_probability()
 			negative_product *= (1.0 - word.get_probability())
 		sms_spam_probability = positive_product / (positive_product + negative_product)
-		print sms
 		if sms_spam_probability > 0.9:
-			print "spam"
+			print "spam: " + sms.strip()
 		else:
-			print "ham"
+			print "ham: " + sms.strip()
 
 
 train_file.close()
